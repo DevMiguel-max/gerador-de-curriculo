@@ -1,0 +1,114 @@
+<style>
+    /* Estilos Específicos para o Modelo 3 (Acadêmico/Primeiro Emprego) */
+    .cv-container {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 25mm 20mm; /* Margens maiores */
+        background: white;
+        font-family: 'Arial', sans-serif;
+        color: #222;
+        box-sizing: border-box;
+        font-size: 11pt;
+        line-height: 1.6;
+    }
+
+    /* Cabeçalho */
+    .cv-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .cv-name {
+        font-size: 20pt;
+        font-weight: bold;
+        margin: 0;
+        color: #000;
+    }
+
+    .cv-contact {
+        font-size: 10pt;
+        margin-top: 5px;
+        color: #555;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    /* Seções */
+    .cv-section {
+        margin-bottom: 18px;
+        page-break-inside: avoid;
+    }
+
+    .cv-section-title {
+        font-size: 11.5pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #f8f8f8;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        color: #333;
+        border-left: 5px solid #aaa;
+    }
+
+    /* Elementos de Lista (Experiência/Educação) */
+    .job-item, .edu-item {
+        margin-bottom: 10px;
+    }
+
+    .job-header {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .job-role {
+        display: block;
+        font-size: 11pt;
+    }
+
+    .job-company, .edu-school {
+        font-size: 10.5pt;
+        font-style: italic;
+        margin-top: 2px;
+    }
+
+    .job-date, .edu-date {
+        float: right;
+        font-size: 10pt;
+        color: #666;
+    }
+
+    .job-desc {
+        text-align: justify;
+        margin-top: 4px;
+        font-size: 10.5pt;
+    }
+</style>
+
+<div class="cv-container">
+    <div class="cv-header">
+        <h1 class="cv-name">{{NOME}}</h1>
+        <div class="cv-contact">
+            {{CIDADE}} | {{TELEFONE}} | {{EMAIL}} | {{LINKEDIN}}
+        </div>
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Objetivo Profissional</div>
+        <p style="text-align: justify;">{{OBJETIVO}}</p>
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Formação Acadêmica</div>
+        {{FORMACAO}}
+    </div>
+    
+    <div class="cv-section">
+        <div class="cv-section-title">Experiência Profissional</div>
+        {{EXPERIENCIAS}}
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Habilidades e Informações Adicionais</div>
+        <p>{{HABILIDADES}}</p>
+    </div>
+</div>
