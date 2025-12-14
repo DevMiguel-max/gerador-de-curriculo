@@ -1,37 +1,47 @@
 <style>
-    /* Estilos Específicos para o Modelo 2 (TI/Moderno) */
+    /* Estilos Específicos para o Modelo 2 (TI/Moderno) - CORRIGIDO PARA PDF */
     .cv-container {
         width: 210mm;
         min-height: 297mm;
         background: white;
-        font-family: 'Calibri', sans-serif; /* Fonte Alternativa */
+        font-family: 'Calibri', sans-serif;
         color: #333;
         box-sizing: border-box;
         font-size: 10.5pt;
         line-height: 1.4;
-        display: flex;
-        flex-direction: row;
-        border: none;
+        padding: 0; /* Remove padding do container principal */
     }
 
+    /* Coluna Lateral (FLOAT) */
     .col-left {
         width: 60mm;
-        background-color: #f2f2f2; /* Cinza claro para a barra lateral */
+        background-color: #f2f2f2;
         padding: 20mm 10mm;
         box-sizing: border-box;
+        float: left; /* USO DE FLOAT PARA MAIOR COMPATIBILIDADE PDF */
+        min-height: 297mm; /* Garante que o fundo cinza preencha toda a página */
     }
 
+    /* Coluna Principal (FLOAT) */
     .col-right {
         width: 150mm;
         padding: 20mm;
         box-sizing: border-box;
+        float: left; /* USO DE FLOAT PARA MAIOR COMPATIBILIDADE PDF */
     }
 
-    /* Estilos de Título e Contato */
+    /* Limpeza de Float (Importante!) */
+    .clearfix::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    /* Demais estilos... */
     .cv-name {
         font-size: 18pt;
         font-weight: bold;
-        color: #007bff; /* Azul vibrante */
+        color: #007bff;
         margin: 0;
         text-transform: uppercase;
         border-bottom: 2px solid #007bff;
@@ -39,15 +49,7 @@
         margin-bottom: 15px;
         width: 100%;
     }
-
-    .cv-contact, .cv-section-title {
-        font-size: 10.5pt;
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: #333;
-    }
-
-    /* Seções */
+    
     .cv-section {
         margin-bottom: 20px;
         page-break-inside: avoid;
@@ -63,88 +65,13 @@
         margin-bottom: 10px;
     }
 
-    /* Experiência */
-    .job-item {
-        margin-bottom: 12px;
-    }
-
-    .job-header {
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .job-role {
-        font-size: 11pt;
-    }
-
-    .job-date {
-        font-size: 10pt;
-        color: #666;
-    }
-
-    .job-company {
-        font-style: italic;
-        font-size: 10pt;
-        margin-bottom: 4px;
-        color: #444;
-    }
-
-    /* Habilidades na Coluna Lateral */
-    .skills-list {
-        margin-top: 10px;
-        padding-left: 0;
-        list-style: none;
-        font-size: 10pt;
-    }
-    .skills-list li {
-        margin-bottom: 3px;
-    }
-    .skills-list strong {
-        color: #007bff;
-    }
-
-    .contact-item {
-        margin-bottom: 8px;
-        font-size: 10pt;
-    }
+    /* O resto do CSS e o HTML (como está abaixo) pode ser mantido */
+    /* ... */
 </style>
 
-<div class="cv-container">
-    <div class="col-left">
-        <div class="cv-section">
-            <div class="cv-section-title">Contato</div>
-            <div class="contact-item"><strong>Cidade:</strong> {{CIDADE}}</div>
-            <div class="contact-item"><strong>Telefone:</strong> {{TELEFONE}}</div>
-            <div class="contact-item"><strong>Email:</strong> {{EMAIL}}</div>
-            <div class="contact-item"><strong>LinkedIn:</strong> {{LINKEDIN}}</div>
+<div class="cv-container clearfix"> <div class="col-left">
         </div>
-        
-        <div class="cv-section">
-            <div class="cv-section-title">Habilidades & Idiomas</div>
-            <ul class="skills-list">
-                <li>{{HABILIDADES}}</li>
-            </ul>
-        </div>
-        
-    </div>
     
     <div class="col-right">
-        <h1 class="cv-name">{{NOME}}</h1>
-
-        <div class="cv-section">
-            <div class="cv-section-title">Objetivo Profissional</div>
-            <p style="text-align: justify;">{{OBJETIVO}}</p>
         </div>
-
-        <div class="cv-section">
-            <div class="cv-section-title">Experiência Profissional</div>
-            {{EXPERIENCIAS}}
-        </div>
-
-        <div class="cv-section">
-            <div class="cv-section-title">Formação Acadêmica</div>
-            {{FORMACAO}}
-        </div>
-    </div>
 </div>
