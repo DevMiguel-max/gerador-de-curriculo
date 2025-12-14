@@ -167,7 +167,7 @@ document.getElementById('cvForm').addEventListener('submit', async function(e) {
                 btn.innerText = originalText;
                 btn.disabled = false;
             });
-        }, 1000);
+        }, 1500);
 
     } catch (error) {
         console.error(error);
@@ -175,4 +175,5 @@ document.getElementById('cvForm').addEventListener('submit', async function(e) {
         btn.innerText = originalText;
         btn.disabled = false;
     }
+
 });
