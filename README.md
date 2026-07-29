@@ -1,38 +1,117 @@
-# Gerador de Currículo PDF - Serverless
+<style>
+    /* Reset específico para o PDF */
+    .cv-container {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        background: white;
+        font-family: 'Arial', sans-serif; /* Fonte Padrão Requisitada */
+        color: #333;
+        box-sizing: border-box;
+        font-size: 11pt; /* Requisito: 10.5 a 12 */
+        line-height: 1.5;
+    }
 
-Este é um projeto simples e eficiente para gerar currículos profissionais em PDF diretamente no navegador, sem necessidade de servidores ou backend. Ideal para hospedagem gratuita no GitHub Pages.
+    .cv-header {
+        border-bottom: 2px solid #333;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
 
-## 🚀 Funcionalidades
+    .cv-name {
+        font-size: 24pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0;
+        color: #000;
+    }
 
-- **100% Client-side:** Funciona apenas com HTML, CSS e JS.
-- **Geração de PDF:** Utiliza a biblioteca `html2pdf.js` para baixar o currículo formatado.
-- **Otimização de Texto:** Pequena lógica para melhorar a formalidade das frases.
-- **Templates:** Sistema flexível para carregar modelos de currículos.
+    .cv-contact {
+        font-size: 10pt;
+        margin-top: 5px;
+    }
 
-## 📦 Como usar este projeto
+    .cv-section {
+        margin-bottom: 15px;
+    }
 
-### Opção 1: Testando no seu computador (Local)
-⚠️ **Atenção:** Devido a políticas de segurança dos navegadores (CORS), o site **não funcionará** se você apenas clicar duas vezes no `index.html` (protocolo `file://`).
+    .cv-section-title {
+        font-size: 12pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+        padding-bottom: 2px;
+        color: #000;
+    }
 
-Você precisa usar um servidor local.
-1. Se usar VS Code, instale a extensão **Live Server**.
-2. Clique com o botão direito no `index.html` e escolha "Open with Live Server".
+    /* Experiência */
+    .job-item {
+        margin-bottom: 12px;
+        page-break-inside: avoid; /* Evita quebrar item no meio da página */
+    }
 
-### Opção 2: Hospedando no GitHub Pages (Recomendado)
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+    }
 
-1. Crie um novo repositório no GitHub.
-2. Faça o upload dos arquivos mantendo a estrutura de pastas.
-3. No repositório, vá em **Settings** > **Pages**.
-4. Em "Build and deployment", selecione a "Branch" como `main` (ou `master`) e a pasta `/ (root)`.
-5. Clique em **Save**.
-6. Aguarde alguns instantes e acesse o link fornecido pelo GitHub.
+    .job-role {
+        font-size: 11pt;
+    }
 
-## 🎨 Como adicionar novos modelos (Templates)
+    .job-date {
+        font-size: 10pt;
+        color: #666;
+    }
 
-1. Crie um novo arquivo HTML na pasta `templates/` (ex: `modelo2.html`).
-2. Copie a estrutura do `modelo1.html`.
-3. Altere o CSS dentro da tag `<style>` desse novo arquivo para mudar o visual.
-4. Mantenha as tags de substituição (`{{NOME}}`, `{{EXPERIENCIAS}}`, etc.).
-5. No arquivo `index.html`, adicione uma nova opção no `<select id="modeloSelect">`:
-   ```html
-   <option value="templates/modelo2.html">Modelo Criativo</option>
+    .job-company {
+        font-style: italic;
+        font-size: 10.5pt;
+        margin-bottom: 4px;
+    }
+
+    .job-desc {
+        text-align: justify;
+    }
+
+    /* Educação */
+    .edu-item {
+        margin-bottom: 8px;
+        page-break-inside: avoid;
+    }
+
+    .edu-course {
+        font-weight: bold;
+    }
+</style>
+
+<div class="cv-container">
+    <div class="cv-header">
+        <h1 class="cv-name">{{NOME}}</h1>
+        <div class="cv-contact">
+            {{CIDADE}} | {{TELEFONE}} | {{EMAIL}}{{LINKEDIN}}
+        </div>
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Objetivo Profissional</div>
+        <p>{{OBJETIVO}}</p>
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Experiência Profissional</div>
+        {{EXPERIENCIAS}}
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Formação Acadêmica</div>
+        {{FORMACAO}}
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Habilidades e Idiomas</div>
+        <p>{{HABILIDADES}}</p>
+    </div>
+</div>

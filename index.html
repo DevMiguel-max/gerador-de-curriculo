@@ -1,87 +1,114 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Currículo Profissional</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-</head>
-<body>
+<style>
+    /* Estilos Específicos para o Modelo 3 (Acadêmico/Primeiro Emprego) */
+    .cv-container {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 25mm 20mm; /* Margens maiores */
+        background: white;
+        font-family: 'Arial', sans-serif;
+        color: #222;
+        box-sizing: border-box;
+        font-size: 11pt;
+        line-height: 1.6;
+    }
 
-    <header>
-        <h1>Gerador de Currículo PDF</h1>
-        <p>Preencha seus dados e baixe um currículo profissional pronto para impressão.</p>
-    </header>
+    /* Cabeçalho */
+    .cv-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
 
-    <main class="container">
-        <form id="cvForm">
-            <section class="form-section">
-                <h2>1. Dados Pessoais</h2>
-                <div class="input-group">
-                    <input type="text" id="nome" placeholder="Nome Completo" required>
-                    <input type="email" id="email" placeholder="E-mail Profissional" required>
-                </div>
-                <div class="input-group">
-                    <input type="tel" id="telefone" placeholder="Telefone / WhatsApp" required>
-                    <input type="text" id="linkedin" placeholder="LinkedIn (URL ou Usuário)">
-                </div>
-                <div class="input-group">
-                    <input type="text" id="cidade" placeholder="Cidade - UF" required>
-                </div>
-            </section>
+    .cv-name {
+        font-size: 20pt;
+        font-weight: bold;
+        margin: 0;
+        color: #000;
+    }
 
-            <section class="form-section">
-                <h2>2. Objetivo Profissional</h2>
-                <textarea id="objetivo" rows="3" placeholder="Ex: Atuar na área administrativa..." required></textarea>
-            </section>
+    .cv-contact {
+        font-size: 10pt;
+        margin-top: 5px;
+        color: #555;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
 
-            <section class="form-section" id="experiencias-container">
-                <h2>3. Experiência Profissional</h2>
-                <div class="experiencia-item">
-                    <input type="text" class="cargo" placeholder="Cargo" required>
-                    <input type="text" class="empresa" placeholder="Empresa" required>
-                    <div class="dates">
-                        <input type="text" class="inicio" placeholder="Início (MM/AAAA)" required>
-                        <input type="text" class="fim" placeholder="Fim (MM/AAAA ou 'Atual')" required>
-                    </div>
-                    <textarea class="descricao" placeholder="Principais atividades e resultados..." rows="3"></textarea>
-                </div>
-            </section>
-            <button type="button" class="btn-secondary" onclick="adicionarExperiencia()">+ Adicionar Experiência</button>
+    /* Seções */
+    .cv-section {
+        margin-bottom: 18px;
+        page-break-inside: avoid;
+    }
 
-            <section class="form-section" id="formacao-container">
-                <h2>4. Formação Acadêmica</h2>
-                <div class="formacao-item">
-                    <input type="text" class="curso" placeholder="Nome do Curso / Graduação" required>
-                    <input type="text" class="instituicao" placeholder="Instituição de Ensino" required>
-                    <input type="text" class="conclusao" placeholder="Conclusão (MM/AAAA)" required>
-                </div>
-            </section>
-            <button type="button" class="btn-secondary" onclick="adicionarFormacao()">+ Adicionar Formação</button>
+    .cv-section-title {
+        font-size: 11.5pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #f8f8f8;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        color: #333;
+        border-left: 5px solid #aaa;
+    }
 
-            <section class="form-section">
-                <h2>5. Habilidades e Idiomas</h2>
-                <textarea id="habilidades" rows="3" placeholder="Ex: Inglês Avançado, Excel Intermediário, Liderança..."></textarea>
-            </section>
+    /* Elementos de Lista (Experiência/Educação) */
+    .job-item, .edu-item {
+        margin-bottom: 10px;
+    }
 
-            <section class="form-section">
-    <h2>6. Escolha o Modelo</h2>
-    <select id="modeloSelect">
-        <option value="templates/modelo1.html">Modelo 1: Clássico (Corporativo)</option>
-        <option value="templates/modelo2.html">Modelo 2: Moderno (TI/Desenvolvedor)</option>
-        <option value="templates/modelo3.html">Modelo 3: Acadêmico (Primeiro Emprego)</option>
-    </select>
-</section>
+    .job-header {
+        font-weight: bold;
+        color: #333;
+    }
 
-            <div class="actions">
-                <button type="submit" class="btn-primary">Gerar Currículo PDF</button>
-            </div>
-        </form>
-    </main>
+    .job-role {
+        display: block;
+        font-size: 11pt;
+    }
 
-    <div id="render-area" style="display: none;"></div>
+    .job-company, .edu-school {
+        font-size: 10.5pt;
+        font-style: italic;
+        margin-top: 2px;
+    }
 
-    <script src="js/script.js"></script>
-</body>
-</html>
+    .job-date, .edu-date {
+        float: right;
+        font-size: 10pt;
+        color: #666;
+    }
+
+    .job-desc {
+        text-align: justify;
+        margin-top: 4px;
+        font-size: 10.5pt;
+    }
+</style>
+
+<div class="cv-container">
+    <div class="cv-header">
+        <h1 class="cv-name">{{NOME}}</h1>
+        <div class="cv-contact">
+            {{CIDADE}} | {{TELEFONE}} | {{EMAIL}} | {{LINKEDIN}}
+        </div>
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Objetivo Profissional</div>
+        <p style="text-align: justify;">{{OBJETIVO}}</p>
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Formação Acadêmica</div>
+        {{FORMACAO}}
+    </div>
+    
+    <div class="cv-section">
+        <div class="cv-section-title">Experiência Profissional</div>
+        {{EXPERIENCIAS}}
+    </div>
+
+    <div class="cv-section">
+        <div class="cv-section-title">Habilidades e Informações Adicionais</div>
+        <p>{{HABILIDADES}}</p>
+    </div>
+</div>
