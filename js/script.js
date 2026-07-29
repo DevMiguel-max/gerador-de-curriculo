@@ -110,15 +110,21 @@ document.getElementById('cvForm').addEventListener('submit', async function(e) {
         if (!response.ok) throw new Error("Erro ao carregar modelo");
         let htmlTemplate = await response.text();
 
+        // Helper: substitui TODAS as ocorrências de uma tag (o .replace()
+        // nativo com string só troca a primeira, o que quebra templates
+        // que repetem a mesma variável em mais de um lugar, ex: modelo2).
+        function substituirTag(html, tag, valor) {
+            return html.split(tag).join(valor ?? '');
+        }
+
         // 3. Injetar dados no HTML (Sistema de replace simples)
-        htmlTemplate = htmlTemplate
-            .replace('{{NOME}}', dados.nome)
-            .replace('{{EMAIL}}', dados.email)
-            .replace('{{TELEFONE}}', dados.telefone)
-            .replace('{{LINKEDIN}}', dados.linkedin ? ` | ${dados.linkedin}` : '')
-            .replace('{{CIDADE}}', dados.cidade)
-            .replace('{{OBJETIVO}}', dados.objetivo)
-            .replace('{{HABILIDADES}}', dados.habilidades);
+        htmlTemplate = substituirTag(htmlTemplate, '{{NOME}}', dados.nome);
+        htmlTemplate = substituirTag(htmlTemplate, '{{EMAIL}}', dados.email);
+        htmlTemplate = substituirTag(htmlTemplate, '{{TELEFONE}}', dados.telefone);
+        htmlTemplate = substituirTag(htmlTemplate, '{{LINKEDIN}}', dados.linkedin ? ` | ${dados.linkedin}` : '');
+        htmlTemplate = substituirTag(htmlTemplate, '{{CIDADE}}', dados.cidade);
+        htmlTemplate = substituirTag(htmlTemplate, '{{OBJETIVO}}', dados.objetivo);
+        htmlTemplate = substituirTag(htmlTemplate, '{{HABILIDADES}}', dados.habilidades);
 
         // Gerar HTML de Experiências
         let expHtml = '';
@@ -134,7 +140,7 @@ document.getElementById('cvForm').addEventListener('submit', async function(e) {
                 </div>
             `;
         });
-        htmlTemplate = htmlTemplate.replace('{{EXPERIENCIAS}}', expHtml);
+        htmlTemplate = substituirTag(htmlTemplate, '{{EXPERIENCIAS}}', expHtml);
 
         // Gerar HTML de Formação
         let eduHtml = '';
@@ -146,7 +152,7 @@ document.getElementById('cvForm').addEventListener('submit', async function(e) {
                 </div>
             `;
         });
-        htmlTemplate = htmlTemplate.replace('{{FORMACAO}}', eduHtml);
+        htmlTemplate = substituirTag(htmlTemplate, '{{FORMACAO}}', eduHtml);
 
         // 4. Renderizar PDF
         const renderArea = document.getElementById('render-area');
